@@ -3,7 +3,7 @@ const searchMovieBtn = document.getElementById("search-btn");
 const movies = [];
 
 //to render movies on screen
-const renderMovies = () => {
+const renderMovies = (filter = "") => {
   const movieList = document.getElementById("movie-list");
 
   if (!movies.length) {
@@ -14,7 +14,11 @@ const renderMovies = () => {
   }
   movieList.innerHTML = "";
 
-  movies.forEach((movie) => {
+  const filteredMovies = !filter
+    ? movies
+    : movies.filter((movie) => movie.info.title.includes(filter));
+
+  filteredMovies.forEach((movie) => {
     const movieEl = document.createElement("li");
     let text = movie.info.title + "-";
     //outputting dynamic property
@@ -54,4 +58,13 @@ const addMovieHandler = () => {
   renderMovies();
 };
 
+//Adding Filter or Search  Functionality
+
+const searchHandler = () => {
+  //read the user input
+  const userInput = document.getElementById("filter-title").value;
+  renderMovies(userInput);
+};
+
+searchMovieBtn.addEventListener("click", searchHandler);
 addMovieBtn.addEventListener("click", addMovieHandler);
